@@ -1,4 +1,4 @@
-import java.utils.Scanner;
+import java.util.Scanner;
 
 import common.*;
 import client.*;
@@ -12,7 +12,7 @@ public class ServerConsole implements ChatIF{
 	
 //Constructor
 
-	public ServerConsole(){
+	public ServerConsole(EchoServer server){
 		try{
 			this.server = server;
 			accept();
@@ -23,26 +23,26 @@ public class ServerConsole implements ChatIF{
 		}
 	}
 	
-	public void accpet(){
+	public void accept(){
 		
-		try{
+		
 			
 			String message;
 			while (true){
 				message = fromConsole.nextLine();
+			try{
 				
 				server.handleMessageFromServer("SERVER MSG> "+ message);
-		}
 		
+			}catch(Exception ex){
+				
+				System.out.println("Unexpected error while reading from console!");
+				System.exit(0);
+				break;
+			
+			}
+			}
 	}
-	catch(Exception ex){
-		
-		System.out.println("Unexpected error while reading from console!");
-		System.exit(0);
-		break;
-	}
-	}
-	
 	public void display(String message){
 		  
     System.out.println("> " + message);
@@ -55,7 +55,7 @@ public class ServerConsole implements ChatIF{
 			server.listen();
 		}
 		catch(Exception ex){
-			System.out.println("Unexpected error: listen for clients failed.")
+			System.out.println("Unexpected error: listen for clients failed.");
 		}
 	}
 }

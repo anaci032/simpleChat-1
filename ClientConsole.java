@@ -135,14 +135,13 @@ public class ClientConsole implements ChatIF
 			if(args[1] ==null){
 				System.out.println("ERROR - Unspecified port, reverting to default port");
 				port = DEFAULT_PORT;
-				chat.accept();
-			}else{
+				}else{
 				host = args[1];
 				System.out.println("host: "+args[1]);
 				ClientConsole chat= new ClientConsole(loginID, host, port);
-				chat.accept();  //Wait for console data
 			}
       }
+	}
     catch(ArrayIndexOutOfBoundsException e)
     {
       host = "localhost";

@@ -49,9 +49,9 @@ public class EchoServer extends AbstractServer
     (Object msg, ConnectionToClient client)
   {
     if(msg.toString().startsWith("#login ")){
-		msg.replaceAll(" ","");
+		msg = msg.setInfo("loginID", msg.toString());
   }
-  
+  }
   public void handleMessageFromServer(String mesg){
 		
 		sendToAllClients(mesg);
@@ -84,12 +84,12 @@ public class EchoServer extends AbstractServer
   
   @Override
   synchronized protected void clientException(ConnectionToClient client, Throwable exception){
-	  System.out.print(client.getInfo("loginID") +" has disconnected." );
+	  System.out.print(client.toString() +" has disconnected." );
   }
   
     @Override
   synchronized protected void clientDisconnected( ConnectionToClient client){
-	  System.out.println(client.getInfo("LoginID") +" has disconnected.");
+	  System.out.println(client.toString() +" has disconnected.");
   }
   
   
@@ -120,7 +120,7 @@ public class EchoServer extends AbstractServer
     try 
     {
       sv.listen(); //Start listening for connections
-	  sv.accept();
+	 
     } 
     catch (Exception ex) 
     {
