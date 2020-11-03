@@ -48,8 +48,13 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
-    System.out.println("Message received: " + msg + " from " + client);
-    this.sendToAllClients(msg);
+    if(msg.toString().startsWith("#login ")){
+		msg.replaceAll(" ","");
+  }
+  
+  public void handleMessageFromServer(String mesg){
+		
+		sendToAllClients(mesg);
   }
     
   /**
@@ -71,6 +76,22 @@ public class EchoServer extends AbstractServer
     System.out.println
       ("Server has stopped listening for connections.");
   }
+  
+    @Override 
+  protected void clientConnected(ConnectionToClient client){
+	  System.out.println(client.toString()+" is joining server");	
+  }
+  
+  @Override
+  synchronized protected void clientException(ConnectionToClient client, Throwable exception){
+	  System.out.print(client.getInfo("loginID") +" has disconnected." );
+  }
+  
+    @Override
+  synchronized protected void clientDisconnected( ConnectionToClient client){
+	  System.out.println(client.getInfo("LoginID") +" has disconnected.");
+  }
+  
   
   //Class methods ***************************************************
   
@@ -99,6 +120,7 @@ public class EchoServer extends AbstractServer
     try 
     {
       sv.listen(); //Start listening for connections
+	  sv.accept();
     } 
     catch (Exception ex) 
     {
